@@ -1,0 +1,171 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="content/style.css">
+</head>
+
+<body>
+    <header>
+        <span>¡Crea una Cuenta y Publica!</span>
+    </header>
+    <main>
+        <section>
+            <form id="formOne" name="form_one" novalidate action="#">
+                <h4 class="datosTitulos">Datos Usuario</h4>
+                <div class="divBox">
+                    <div class="divInpt">
+                        <label for="uName">Nombre de Usuario</label>
+                        <input type="text" id="uName" name="uName" placeholder="userName" pattern="^\w+$" required />
+                        <div class=" dError">
+
+                        </div>
+                    </div>
+                    <div class="divInpt">
+                        <label for="pass">Contraseña</label>
+                        <input type="password" id="pass" name="pass" placeholder="Introduce Contraseña" minlength="6"
+                            required />
+                        <div class=" dError"></div>
+                        <div class="divInput">
+                            <input type="checkbox" name="showPass" id="showPass">
+                            <label for="showPass">Mostrar Contraseña</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="datosTitulos">Datos Personales</h4>
+                <div>
+                    <div class="divBox">
+                        <div class="divInpt">
+                            <label for="fName">Nombre</label>
+                            <input type="text" id="fName" placeholder="Nombre" pattern="([A-z]+\s?){0,}" required>
+                            <div class=" dError">
+
+                            </div>
+                        </div>
+                        <div class="divInpt">
+                            <label for="sName">Apellidos</label>
+                            <input type="text" id="sName" placeholder="Apellidos" pattern="^[A-z]+-?\s?[A-z]+" required>
+                            <div class=" dError">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divBox">
+                        <div class="divInpt">
+                            <label for="num">Teléphono</label>
+                            <input type="text" id="num" placeholder="Ejem: (+34)922123123"
+                                pattern="(\(\+\d\d\))?[6|8|9]\d{8}" required>
+                            <div class=" dError">
+
+                            </div>
+                        </div>
+                        <div class="divInpt">
+                            <label for="postNum">Código Postal</label>
+                            <input type="text" id="postNum" placeholder="38XXX" pattern="^[38]\d{4}" required>
+                            <div class=" dError">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divBox">
+                        <div class="divInpt">
+                            <label for="dniLetter">DNI</label>
+                            <div class="divInput">
+                                <select id="dniLetter">
+                                    <option value="-">-</option>
+                                    <option value="DNI" class="dniLetter">DNI</option>
+                                    <option value="NIE" class="dniLetter">NIE</option>
+                                </select>
+                                <input type="text" id="dni" placeholder="DNI/NIE" required disabled>
+                                <div class=" dError">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="divInpt">
+                            <span>Crear cuenta como:</span>
+                            <div>
+                                <label for="radioParticular">Particular</label>
+                                <input type="radio" id="radioParticular" class="radioCuenta" name="Particular" required>
+
+                                <label for="radioEmpresa">Empresa</label>
+                                <input type="radio" id="radioEmpresa" class="radioCuenta" name="Empresa">
+                            </div>
+                            <div class=" dError"></div>
+                        </div>
+                        <div class="divInpt">
+                            <label for="agno">Año de Nacimiento</label>
+                            <select name="agno" id="agno" required>
+                            </select>
+                            <div class=" dError">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="dCBox" class="divBox">
+                    <label>Elige tus aficiones:</label>
+                    <input type="checkbox" class="cBox" name="Musica">
+                    <label for="Musica">Música</label>
+
+                    <input type="checkbox" class="cBox" name="Deporte">
+                    <label for="Deporte">Deporte</label>
+
+                    <input type="checkbox" class="cBox" name="Video Juegos">
+                    <label for="Video Juegos">Video Juegos</label>
+
+                    <input type="checkbox" class="cBox" name="Manualidades">
+                    <label for="Manualidades">Manualidades</label>
+
+                    <input type="checkbox" class="cBox" name="Artes">
+                    <label for="Artes">Artes</label>
+
+                    <input type="checkbox" class="cBox" name="Lectura">
+                    <label for="Lectura">Lectura</label>
+
+                </div>
+                <div class=" dError">
+
+                </div>
+                <h4 class="datosTitulos">Datos Publicación</h4>
+                <div>
+                    <div class="divInpt">
+                        <label for="titulo">Titulo</label>
+                        <input type="text" id="titulo" placeholder="Titulo" required maxlength="15" />
+                        <div class=" dError"></div>
+                        <div class="letterCount"><span id="letterCountTitle">0</span>/15</div>
+                    </div>
+                    <div class="divInpt">
+                        <label for="desc">Descripción</label>
+                        <textarea name="descripcion" id="desc" cols="30" rows="3" required maxlength="120"></textarea>
+                        <div class=" dError"></div>
+                        <div class="letterCount"><span id="letterCountDesc">0</span>/120</div>
+                    </div>
+                    <div>
+                        <label for="">Valora tu contenido</label>
+                    </div>
+                    <div class="divInpt">
+                        <label for="canal">Canal</label>
+                        <div class="divBox">
+                            <img src="./content/img/question.png" id="canalIcon">
+                            <input type="url" id="canal" placeholder="Introduce tu canal" required>
+                        </div>
+                        <div class=" dError"></div>
+
+                    </div>
+                </div>
+                <input type="button" value="Enviar" id="submitBtn">
+            </form>
+        </section>
+        <section id="sectionTwo"></section>
+    </main>
+    <script src="content/script.js" type="module"></script>
+    <script src="content/userNames.js" type="module"></script>
+</body>
+
+</html>

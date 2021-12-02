@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var radioBtns = document.getElementsByName("trabajo");
+var selectEle = document.getElementById("agno");
+
+var checkboxContainer = document.getElementById("dCBox");
+var checkboxes = checkboxContainer.getElementsByTagName("input");
+
+/**
+ * Insertar los años en el select
+ * @fuction setSelectYears 
+ */
+
+function setSelectYears() {
+    let select = document.getElementById("agno");
+
+    let yearStart = 1930;
+    let yearFinish = 2010;
+
+    while (yearFinish >= yearStart) {
+        let option = document.createElement("option");
+
+        option.text = yearFinish;
+        option.value = yearFinish;
+        select.add(option);
+
+        yearFinish--;
+    }
+}
+
+/**
+ * Insertar los errors de los campos
+ * @fuction setError
+ * @param {string} errorStr - Cadena de text con el error y su elemento de HTML
+ * @param {HTMLCollection} currentEle - Elemento del campo actual
+ */
+function setError(errorStr, currentEle) {
+    if (currentEle.nextElementSibling.hasChildNodes) {
+        currentEle.style.border = "1px red solid";
+        currentEle.style.borderRadius = "2px";
+        currentEle.nextElementSibling.innerHTML = errorStr;
+    }
+}
+
+/**
+ * Quitar los errors/Ponerlos en verde de los campos
+ * @fuction removeError
+ * @param {HTMLCollection} currentEle - Elemento del campo actual
+ */
+
+function removeError(currentEle) {
+
+    currentEle.style.border = "1px green solid";
+    currentEle.style.borderRadius = "2px";
+    currentEle.nextElementSibling.innerHTML = "";
+
+}
+
+/**
+ * Comprobar validación de nombre de usuario
+ * @fuction checkValidUsername
+ */
+function checkValidUsername() {
+    var currentEle = this.window.document.activeElement;
+
+    if (currentEle.value == "") {
+        let errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.value.indexOf(' ') >= 0) {
+        let errorStr = "&lt;p> No puede tener espacios en blanco &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.patternMismatch) {
+        let errorStr = "&lt;p> No puede tener caracteres especiales &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+}
+
+/**
+ * Comprobar validación de contrasña
+ * @fuction checkValidPassword
+ */
+function checkValidPassword() {
+    var currentEle = this.window.document.activeElement;
+
+    if (currentEle.value == "") {
+        let errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.value.indexOf(' ') >= 0) {
+        let errorStr = "&lt;p> No puede tener espacios en blanco &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.tooShort) {
+        let errorStr = "&lt;p> Minimo 6 caracteres &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+        passwordStrength();
+    }
+}
+
+/**
+ * Cambiar visibilidad de la contraseña
+ * @fuction passwordVisibility
+ */
+function passwordVisibility() {
+    var passEle = document.getElementById("pass");
+    if (passEle.type === "password") {
+        passEle.type = "text";
+    } else {
+        passEle.type = "password";
+    }
+}
+
+/**
+ * Calcular fuerza de la contraseña
+ * @fuction passwordStrength
+ */
+function passwordStrength() {
+    var currentEle = this.window.document.activeElement;
+    var passwordInput = currentEle.value;
+    var strength = 0;
+
+    var criteria = ["[a-z]", "[A-Z]", "[0-9][^0-9]*[0-9]", "[!·#@$%&amp;/()=?¿¡:.,;-^]"]
+    criteria.forEach(expression => {
+        if (passwordInput.match(expression)) {
+            strength++;
+        }
+    });
+    drawPasswordBar(strength, currentEle);
+}
+
+/**
+ * Insertar la barrar de fortaleza
+ * @fuction drawPasswordBar
+ * @param {int} strength - Número entre 0-4 para valorar la fuerza de la contraseña.
+ * @param {HTMLCollection} currentEle - Elemento del campo actual
+ */
+function drawPasswordBar(strength, currentEle) {
+    let bar = currentEle.nextElementSibling;
+    if (strength == "4") {
+        bar.style.borderBottom = "4px green solid";
+        bar.style.maxWidth = "100%";
+    } else if (strength == "3") {
+        bar.style.borderBottom = "4px orange solid";
+        bar.style.maxWidth = "75%";
+    } else if (strength == "2") {
+        bar.style.borderBottom = "4px orange solid";
+        bar.style.maxWidth = "50%";
+    } if (strength == "1") {
+        bar.style.borderBottom = "4px red solid";
+        bar.style.maxWidth = "25%";
+    }
+}
+
+/**
+ * Comprobar validacion del nombre
+ * @fuction checkValidFName
+ */
+function checkValidFName() {
+    var currentEle = this.window.document.activeElement;
+    let errorStr = ""
+    let char = currentEle.value.charAt(0);
+
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (char != char.toUpperCase()) {
+        errorStr = "&lt;p> Tiene que empezar con una letra en mayuscula. &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.patternMismatch) {
+        errorStr = "&lt;p> No puede tener caracteres especiales &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+
+    }
+    if (currentEle.value.indexOf(" ") >= 1) {
+        let names = currentEle.value.split(" ");
+        let continuar = true;
+        console.log(names);
+        names.forEach(name => {
+            let charName = name.charAt(0);
+            if (charName != charName.toUpperCase()) {
+                continuar = false
+            }
+        });
+        if (continuar == false) {
+            errorStr = "&lt;p>Los nombres tienen que empezar con una letra en mayuscula&lt;p>";
+            setError(errorStr, currentEle);
+        } else {
+            removeError(currentEle);
+        }
+    }
+
+}
+
+/**
+ * Comprobar validacion del apellido
+ * @fuction checkValidSName
+ */
+function checkValidSName() {
+    var currentEle = this.document.activeElement;
+    let errorStr = ""
+
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.value.startsWith(" ")) {
+        errorStr = "&lt;p>No puede empezar con un espacio en blanco &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.patternMismatch) {
+        errorStr = "&lt;p> No puede tener caracteres especiales o números &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+
+}
+
+// No hecho
+// function checkValidDNI() {
+//     valor = document.getElementById("campo").value;
+    
+//     if (!(/(^([0-9]{7,8}\-[A-Z]))$/.test(valor))) {
+//         return false;
+//     }
+// }
+
+/**
+ * Comprobar validacion del teléphono
+ * @fuction checkValidNum
+ */
+function checkValidNum() {
+    var currentEle = this.window.document.activeElement;
+    let errorStr = ""
+
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.patternMismatch) {
+        errorStr = "&lt;p> El teléfono puede tener prefijo de país y 9 cifras. &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+}
+
+/**
+ * Comprobar validacion del código postal
+ * @fuction checkValidCP
+ */
+function checkValidCP() {
+    var currentEle = this.window.document.activeElement;
+    let errorStr = ""
+
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.validity.patternMismatch) {
+        errorStr = "&lt;p> Debe ser de 5 numeros y empezar con 38 &lt;p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+
+}
+
+/**
+ * Comprobar validacion del trabajo (NO funciona)
+ * @fuction checkValidJob
+ */
+function checkValidJob() {
+    var currentEle = this.window.document.activeElement;
+    let errorStr = ""
+
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Debe selecionar uno &lt;p>";
+        setError(errorStr, currentEle);
+    }
+    else {
+
+        removeError(currentEle);
+    }
+
+}
+
+/**
+ * Comprobar validacion de edad
+ * @fuction checkValidAge
+ */
+function checkValidAge() {
+    var currentEle = this.window.document.activeElement;
+    let errorStr = ""
+
+    var d = new Date();
+    var n = d.getFullYear()
+
+    var age = n - currentEle.value;
+    if (age &lt; 18) {
+        errorStr = "&lt;p> Tienes que ser mayor de edad &lt;p>";
+        setError(errorStr, currentEle);
+    }
+    else {
+        removeError(currentEle);
+    }
+
+}
+
+/**
+ * Comprobar validacion de aficiónes
+ * @fuction checkVaildCBox
+ */
+function checkVaildCBox() {
+    var currentEleParent = this.window.document.activeElement.parentElement;
+
+    let errorStr = ""
+    let numChecked = 0;
+    for (let index = 0; index &lt; checkboxes.length; index++) {
+        if (checkboxes[index].checked) {
+            numChecked++;
+        }
+    }
+    if (numChecked &lt;= 1) {
+        errorStr = "Tienes que marcar dos o más aficiónes"
+        setError(errorStr, currentEleParent);
+    } else {
+        removeError(currentEleParent);
+    }
+}
+
+/**
+ * Comprobar validacion del título
+ * @fuction checkValidTitle
+ */
+function checkValidTitle() {
+    var currentEle = this.document.activeElement;
+    let errorStr = ""
+
+    let currentLegnth = currentEle.value.length;
+    let maxLength = currentEle.maxLength;
+    displayCharLimit(currentLegnth, maxLength);
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;/p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.value.startsWith(" ")) {
+        errorStr = "&lt;p>No puede empezar con un espacio en blanco &lt;/p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+
+}
+
+/**
+ * Comprobar validacion del descripción
+ * @fuction checkValidDesc
+ */
+function checkValidDesc() {
+    var currentEle = this.document.activeElement;
+    let errorStr = ""
+
+    let currentLegnth = currentEle.value.length;
+    let maxLength = currentEle.maxLength;
+    displayCharLimit(currentLegnth, maxLength);
+    if (currentEle.value == "") {
+        errorStr = "&lt;p> Campo obligatorio &lt;/p>";
+        setError(errorStr, currentEle);
+    } else if (currentEle.value.startsWith(" ")) {
+        errorStr = "&lt;p>No puede empezar con un espacio en blanco &lt;/p>";
+        setError(errorStr, currentEle);
+    } else {
+        removeError(currentEle);
+    }
+
+}
+// function displayCharLimit(currentLegnth, maxLength) {
+//     var currentEle = this.window.document.activeElement;
+
+//     var htmlStr = "&lt;p>Hello&lt;/p>";
+
+// }
+
+/**
+ * Comprobar validacion del canal
+ * @fuction checkValidCanal
+ */
+function checkValidCanal() {
+    var currentEle = this.window.document.activeElement;
+    let canalUrl = currentEle.value;
+    let errorStr = "";
+
+    let canalIcon = document.getElementById("canalIcon");
+
+    let twitchRegEx = '^(https:\/\/www\.twitch\.tv\/)+\w+';
+    let youtubeRegEx = '^(https:\/\/www\.youtube\.com\/channel\/\w+)';
+    let instaRegEx = '^(https:\/\/www\.instagram\.com\/)+\w+';
+
+    let continuar = false;
+    if (youtubeRegEx.test(canalIcon)) {
+        continuar = true;
+        canalIcon.src = "./content/img/youtube.png";
+    } else if (canalUrl.match(twitchRegEx)) {
+        continuar = true;
+        canalIcon.src = "./content/img/twitch.png";
+    } if (canalUrl.match(instaRegEx)) {
+        continuar = true;
+        canalIcon.src = "./content/img/youtube.png";
+    } else {
+        errorStr = "&lt;p>Url Erronea &lt;/p>";
+        setError(errorStr, currentEle)
+    }
+}
+
+
+document.getElementById("uName").addEventListener("input", () => {
+    checkValidUsername();
+});
+document.getElementById("pass").addEventListener("input", () => {
+    checkValidPassword();
+});
+
+document.getElementById("showPass").addEventListener("click", () => {
+    passwordVisibility();
+});
+
+document.getElementById("fName").addEventListener("input", () => {
+    checkValidFName();
+});
+document.getElementById("sName").addEventListener("input", () => {  //CHANGE SOLO FUNCIONA AVECES
+    checkValidSName();
+});
+
+document.getElementById("num").addEventListener("input", () => {
+    checkValidNum();
+});
+document.getElementById("postNum").addEventListener("input", () => {
+    checkValidCP();
+});
+
+
+radioBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        checkValidJob();
+    });
+});
+selectEle.addEventListener("change", (e) => {
+    checkValidAge();
+});
+
+for (let index = 0; index &lt; checkboxes.length; index++) {
+    if (checkboxes[index].type == "checkbox") {
+        checkboxes[index].addEventListener("click", () => {
+            checkVaildCBox();
+        })
+    }
+}
+
+document.getElementById("titulo").addEventListener("input", () => {
+    checkValidTitle();
+});
+document.getElementById("desc").addEventListener("input", () => {
+    checkValidDesc();
+});
+
+document.getElementById("canal").addEventListener("input", () => {
+    checkValidCanal();
+});
+
+// document.getElementById("form_one").addEventListener("submit", () => {
+
+// });
+
+setSelectYears();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#checkVaildCBox">checkVaildCBox</a></li><li><a href="global.html#checkValidAge">checkValidAge</a></li><li><a href="global.html#checkValidCanal">checkValidCanal</a></li><li><a href="global.html#checkValidCP">checkValidCP</a></li><li><a href="global.html#checkValidDesc">checkValidDesc</a></li><li><a href="global.html#checkValidFName">checkValidFName</a></li><li><a href="global.html#checkValidJob">checkValidJob</a></li><li><a href="global.html#checkValidNum">checkValidNum</a></li><li><a href="global.html#checkValidPassword">checkValidPassword</a></li><li><a href="global.html#checkValidSName">checkValidSName</a></li><li><a href="global.html#checkValidTitle">checkValidTitle</a></li><li><a href="global.html#checkValidUsername">checkValidUsername</a></li><li><a href="global.html#drawPasswordBar">drawPasswordBar</a></li><li><a href="global.html#passwordStrength">passwordStrength</a></li><li><a href="global.html#passwordVisibility">passwordVisibility</a></li><li><a href="global.html#removeError">removeError</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#setSelectYears">setSelectYears</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Fri Jan 15 2021 22:56:22 GMT+0000 (Greenwich Mean Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
